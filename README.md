@@ -80,32 +80,36 @@ python main.py
 
 ---
 
-## Diagrama (PlantUML)
+classDiagram
 
-```plantuml
-@startuml
-title Arquitectura Hexagonal - Gestor de Tareas
+%% =====================
+%% Dominio
+%% =====================
+class Tarea
+class DomainException
 
-package "Dominio" {
-    class Tarea
-    class DomainException
+%% =====================
+%% Aplicación
+%% =====================
+class TareaService {
 }
+class TareaServicePort
+class TareaRepositoryPort
 
-package "Aplicación" {
-    interface TareaServicePort
-    interface TareaRepositoryPort
-    class TareaService
-}
+%% =====================
+%% Infraestructura
+%% =====================
+class CLIAdapter
+class JsonTareaRepository
 
-package "Infraestructura" {
-    class CLIAdapter
-    class JsonTareaRepository
-}
+%% =====================
+%% Relaciones
+%% =====================
+
+TareaService ..|> TareaServicePort
+TareaService --> TareaRepositoryPort
 
 CLIAdapter --> TareaServicePort
-TareaService --> TareaServicePort
-TareaService --> TareaRepositoryPort
 JsonTareaRepository --> TareaRepositoryPort
 
-@enduml
-```
+Tarea --> DomainException
