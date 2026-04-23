@@ -80,7 +80,9 @@ python main.py
 
 ---
 
-classDiagram
+## Diagrama (PlantUML)
+
+```classDiagram
 
 %% =====================
 %% Dominio
@@ -113,3 +115,4 @@ CLIAdapter --> TareaServicePort
 JsonTareaRepository --> TareaRepositoryPort
 
 Tarea --> DomainException
+```
