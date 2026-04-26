@@ -3,18 +3,19 @@ Casos de Uso - Orquesta la lógica de aplicación.
 """
 
 from typing import List
-
-from src.application.ports.input.tarea_service_port import TareaServicePort
-from src.application.ports.output.tarea_repository_port import TareaRepositoryPort
-from src.domain.exceptions import TareaNoEncontradaError
 from src.domain.tarea import Tarea
+from src.domain.exceptions import TareaNoEncontradaError
 
 
-class TareaService(TareaServicePort):
-    def __init__(self, repositorio: TareaRepositoryPort):
+class TareaService:
+    def __init__(self, repositorio):
         self._repositorio = repositorio
 
     def crear_tarea(self, titulo: str, descripcion: str = "") -> Tarea:
+        # validación defensiva (aunque ya está en dominio)
+        if not titulo or titulo.strip() == "":
+            raise ValueError("El título no puede estar vacío")
+
         tarea = Tarea(titulo=titulo, descripcion=descripcion)
         return self._repositorio.guardar(tarea)
 
@@ -25,6 +26,7 @@ class TareaService(TareaServicePort):
         tarea = self._repositorio.buscar_por_id(tarea_id)
         if tarea is None:
             raise TareaNoEncontradaError(tarea_id)
+
         tarea.completar()
         return self._repositorio.guardar(tarea)
 
@@ -35,6 +37,7 @@ class TareaService(TareaServicePort):
         tarea = self._repositorio.buscar_por_id(tarea_id)
         if tarea is None:
             raise TareaNoEncontradaError(tarea_id)
+
         tarea.archivar()
         self._repositorio.guardar(tarea)
         return True

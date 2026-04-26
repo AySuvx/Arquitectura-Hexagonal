@@ -41,7 +41,7 @@ class CLIAdapter:
         else:
             print("  (ninguna)")
 
-        print(f"\n  ✅ COMPLETADAS ({len(completadas)})")
+        print(f"\n  COMPLETADAS ({len(completadas)})")
         print(f"  {'·'*48}")
         if completadas:
             for t in completadas:
@@ -49,7 +49,7 @@ class CLIAdapter:
         else:
             print("  (ninguna)")
 
-        print(f"\n  📦 ARCHIVADAS ({len(archivadas)})")
+        print(f"\n  ARCHIVADAS ({len(archivadas)})")
         print(f"  {'·'*48}")
         if archivadas:
             for t in archivadas:
@@ -69,7 +69,7 @@ class CLIAdapter:
 
     def _menu(self) -> None:
         print(f"\n{'═'*52}")
-        print("   🎓  GESTOR DE TAREAS ACADÉMICAS")
+        print("  GESTOR DE TAREAS ACADÉMICAS")
         print(f"{'═'*52}")
         print("  1. Registrar nueva tarea")
         print("  2. Listar todas las tareas")
@@ -84,14 +84,14 @@ class CLIAdapter:
     def _accion_crear(self) -> None:
         titulo = input("\n  Título de la tarea: ").strip()
         if not titulo:
-            print("\n  ❌ Error: El título no puede estar vacío.")
+            print("\n  Error: El título no puede estar vacío.")
             return
         descripcion = input("  Descripción (opcional): ").strip()
         try:
             tarea = self._servicio.crear_tarea(titulo, descripcion)
-            print(f"\n  ✅ Tarea registrada  ID:[{tarea.id}]  '{tarea.titulo}'")
+            print(f"\n  Tarea registrada  ID:[{tarea.id}]  '{tarea.titulo}'")
         except ValueError as e:
-            print(f"\n  ❌ Error: {e}")
+            print(f"\n  Error: {e}")
 
     def _accion_listar(self) -> None:
         """Lista todas las tareas distinguiendo pendientes y completadas."""
@@ -114,9 +114,9 @@ class CLIAdapter:
         tarea_id = input("\n  ID de la tarea a completar: ").strip()
         try:
             tarea = self._servicio.completar_tarea(tarea_id)
-            print(f"\n  ✅ Tarea [{tarea.id}] '{tarea.titulo}' marcada como completada.")
+            print(f"\n  Tarea [{tarea.id}] '{tarea.titulo}' marcada como completada.")
         except Exception as e:
-            print(f"\n  ❌ Error: {e}")
+            print(f"\n  Error: {e}")
 
     def _accion_pendientes(self) -> None:
         tareas = self._servicio.consultar_pendientes()
@@ -135,9 +135,9 @@ class CLIAdapter:
         tarea_id = input("\n  ID de la tarea a archivar: ").strip()
         try:
             self._servicio.eliminar_tarea(tarea_id)
-            print(f"\n  📦 Tarea [{tarea_id}] archivada correctamente.")
+            print(f"\n  Tarea [{tarea_id}] archivada correctamente.")
         except Exception as e:
-            print(f"\n  ❌ Error: {e}")
+            print(f"\n  Error: {e}")
 
     # ── Bucle principal ───────────────────────────────────────────────────────
 
@@ -153,10 +153,10 @@ class CLIAdapter:
             self._menu()
             opcion = input("  Selecciona una opción: ").strip()
             if opcion == "6":
-                print("\n  👋 ¡Hasta pronto!\n")
+                print("\n ¡Hasta pronto!\n")
                 break
             accion = acciones.get(opcion)
             if accion:
                 accion()
             else:
-                print("\n  ⚠️  Opción no válida. Elige entre 1 y 6.")
+                print("\n  Opción no válida. Elige entre 1 y 6.")
